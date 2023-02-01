@@ -117,18 +117,25 @@ void Game::processMouseButtonUp(sf::Event t_event)
 	sf::Vector2f heading(0.0f, 0.0f);
 	m_desiredPosition.x = t_event.mouseButton.x;
 	m_desiredPosition.y = t_event.mouseButton.y;
+	float magnitude = 0;
 	if(m_heliPosition.x < m_desiredPosition.x)
 	{
 		m_direction = Direction::Right;
 		m_helicopterSprite.setScale(1.0f, 1.0f);
+		m_frameIncrement = 0.5f;
 	}
 	if(m_heliPosition.x > m_desiredPosition.x)
 	{
 		m_direction = Direction::Left;
 		m_helicopterSprite.setScale(-1.0f, 1.0f);
+		m_frameIncrement = 0.5f;
 	}
-
+	heading = m_desiredPosition - m_heliPosition;
+	magnitude = std::sqrtf(heading.x * heading.x + heading.y * heading.y);
+	heading = heading / magnitude;
+	m_velocity = heading * 6.0f;
  }
+
 
 /// <summary>
 /// Update the game world
@@ -141,7 +148,7 @@ void Game::update(sf::Time t_deltaTime)
 		m_window.close();
 	}
 	animateHeli();
-	helictoperBob();
+	move();
 }
 
 /// <summary>
@@ -207,23 +214,48 @@ void Game::animateHeli()
 
 }
 
-void Game::helictoperBob()
+void Game::move()
 {
-	while (canFly == true)
+	m_heliPosition += m_velocity;
+	m_helicopterSprite.setPosition(m_heliPosition);
+	if (m_direction != Direction::None)
 	{
-		for(int i = 1; i > 0; i++)
+		if (m_direction == Direction::Left)
 		{
-			
-			if (i % 2 != 0)
+			if (m_heliPosition.x < m_desiredPosition.x)
 			{
-				m_helicopterSprite.setPosition(200.0f, 200.0f - 2.0f);
-				
+				m_direction = Direction::None;
+				m_velocity = sf::Vector2f{ 0.0f,0.0f };
+				m_frameIncrement = 0.25f;
 			}
-			if (i % 2 == 0)
+		}
+		if (m_direction == Direction::Right)
+		{
+			if (m_heliPosition.x > m_desiredPosition.x)
 			{
-				m_helicopterSprite.setPosition(200.0f, 200.0f + 2.0f);
-				
+				m_direction = Direction::None;
+				m_velocity = sf::Vector2f{ 0.0f,0.0f };
+				m_frameIncrement = 0.25f;
+			}
+		}
+		if (m_direction == Direction::Up)
+		{
+			if (m_heliPosition.y < m_desiredPosition.y)
+			{
+				m_direction = Direction::None;
+				m_velocity = sf::Vector2f{ 0.0f,0.0f };
+				m_frameIncrement = 0.25f;
+			}
+		}
+		if (m_direction == Direction::Down)
+		{
+			if (m_heliPosition.y > m_desiredPosition.y)
+			{
+				m_direction = Direction::None;
+				m_velocity = sf::Vector2f{ 0.0f,0.0f };
+				m_frameIncrement = 0.25f;
 			}
 		}
 	}
 }
+

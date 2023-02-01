@@ -40,7 +40,8 @@ private:
 	void setupFontAndText();
 	void setupSprite();
 	void animateHeli();
-	void helictoperBob();
+	void move();
+	void checkBounds();
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message
@@ -55,9 +56,8 @@ private:
 	int fly = 0;
 	sf::Vector2f m_heliPosition{ 200.0f,200.0f };
 	sf::Vector2f m_desiredPosition{ 0.0f,0.0f };
+	sf::Vector2f m_velocity{ 0.0f,0.0f };
 	Direction m_direction{ Direction::None };
-
-
 };
 
 #endif // !GAME_HPP
