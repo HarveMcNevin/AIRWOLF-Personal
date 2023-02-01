@@ -91,6 +91,17 @@ void Game::processKeys(sf::Event t_event)
 	{
 		m_exitGame = true;
 	}
+	if (sf::Keyboard::Space == t_event.key.code && fly % 2 == 0)
+	{
+		canFly = true;
+		fly++;
+	}
+	else
+	{
+			canFly = false;
+			fly++;
+	}
+
 }
 
 /// <summary>
@@ -103,6 +114,7 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
+	animateHeli();
 }
 
 /// <summary>
@@ -150,4 +162,20 @@ void Game::setupSprite()
 	m_helicopterSprite.setPosition(200.0f, 200.0f);
 	m_helicopterSprite.setOrigin(90.0f, 32.0f);
 	m_helicopterSprite.setTextureRect(sf::IntRect(0, 0, 180, 64));
+}
+
+void Game::animateHeli()
+{
+	if (canFly) 
+	{
+		int oldFrame = m_frameNo;
+		m_frameValue += m_frameIncrement;
+		m_frameNo = (int)m_frameValue;
+		m_frameNo = m_frameNo % 4;
+		if (oldFrame != m_frameNo)
+		{
+			m_helicopterSprite.setTextureRect(sf::IntRect(0, m_frameNo * 64, 180, 64));
+		}
+	}
+
 }

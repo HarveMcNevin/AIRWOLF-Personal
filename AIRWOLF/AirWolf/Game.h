@@ -29,6 +29,7 @@ private:
 	void render();
 	void setupFontAndText();
 	void setupSprite();
+	void animateHeli();
 
 	sf::RenderWindow m_window; // main SFML window
 	sf::Font m_ArialBlackfont; // font used by message
@@ -36,6 +37,11 @@ private:
 	sf::Texture m_helicopterTexture; // texture used for sfml logo
 	sf::Sprite m_helicopterSprite; // sprite used for sfml logo
 	bool m_exitGame; // control exiting game
+	int m_frameNo{ 0 };// 0-3 current frame
+	float m_frameValue{ 0.0f }; // current frame number
+	float m_frameIncrement{ 0.25f }; // how to incremement the frame
+	bool canFly{ false };
+	int fly = 0;
 
 };
 

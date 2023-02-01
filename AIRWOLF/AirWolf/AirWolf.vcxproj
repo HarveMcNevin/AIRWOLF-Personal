@@ -44,6 +44,7 @@
     <ProjectGuid>{0a02b44d-ebaf-4765-9cf8-eebaa10d36d9}</ProjectGuid>
     <RootNamespace>AirWolf</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>AirWolf-Personal</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
