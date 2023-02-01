@@ -77,6 +77,13 @@ void Game::processEvents()
 		{
 			processKeys(newEvent);
 		}
+		if (sf::Event::MouseButtonReleased == newEvent.type)
+		{
+			if (canFly)
+			{
+				processMouseButtonUp(newEvent);
+			}
+		}
 	}
 }
 
@@ -101,8 +108,27 @@ void Game::processKeys(sf::Event t_event)
 			canFly = false;
 			fly++;
 	}
+	
 
 }
+
+void Game::processMouseButtonUp(sf::Event t_event)
+{
+	sf::Vector2f heading(0.0f, 0.0f);
+	m_desiredPosition.x = t_event.mouseButton.x;
+	m_desiredPosition.y = t_event.mouseButton.y;
+	if(m_heliPosition.x < m_desiredPosition.x)
+	{
+		m_direction = Direction::Right;
+		m_helicopterSprite.setScale(1.0f, 1.0f);
+	}
+	if(m_heliPosition.x > m_desiredPosition.x)
+	{
+		m_direction = Direction::Left;
+		m_helicopterSprite.setScale(-1.0f, 1.0f);
+	}
+
+ }
 
 /// <summary>
 /// Update the game world
@@ -115,6 +141,7 @@ void Game::update(sf::Time t_deltaTime)
 		m_window.close();
 	}
 	animateHeli();
+	helictoperBob();
 }
 
 /// <summary>
@@ -178,4 +205,25 @@ void Game::animateHeli()
 		}
 	}
 
+}
+
+void Game::helictoperBob()
+{
+	while (canFly == true)
+	{
+		for(int i = 1; i > 0; i++)
+		{
+			
+			if (i % 2 != 0)
+			{
+				m_helicopterSprite.setPosition(200.0f, 200.0f - 2.0f);
+				
+			}
+			if (i % 2 == 0)
+			{
+				m_helicopterSprite.setPosition(200.0f, 200.0f + 2.0f);
+				
+			}
+		}
+	}
 }
